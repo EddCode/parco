@@ -5,7 +5,7 @@ interface parkingLot {
   name: string
   spots: number
   contact: string
-  parkingType: ParkingType.PUBLIC | ParkingType.COURTESY | ParkingType.COURTESY
+  parkingType: ParkingType.PUBLIC | ParkingType.PRIVATE | ParkingType.COURTESY
 }
 
 export function ParkingLot (parking: parkingLot): parkingLot {

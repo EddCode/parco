@@ -1,4 +1,4 @@
-enum userEnumType {
+export enum userEnumType {
   CORPORATE = 'corporate',
   PROVIDER = 'provider',
   VISITOR = 'vistor'
