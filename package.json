@@ -1,0 +1,43 @@
+{
+  "name": "Parco",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "author": "Edgar Figueroa<edgar.figueroa.gtz@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint . --ext .ts",
+    "test": "jest --coverage",
+    "dev": "nodemon --inspect=0.0.0.0:9229"
+  },
+  "dependencies": {
+    "@types/joi": "^17.2.3",
+    "@typescript-eslint/parser": "^6.3.0",
+    "apollo-server-express": "^3.12.0",
+    "express": "^4.18.2",
+    "express-graphql": "^0.12.0",
+    "graphql": "^16.7.1",
+    "joi": "^17.9.2",
+    "jsonwebtoken": "^9.0.1",
+    "pg": "^8.11.2",
+    "ts-node": "^10.9.1",
+    "winston": "^3.10.0"
+  },
+  "devDependencies": {
+    "@nestjs/sequelize": "^10.0.0",
+    "@types/express": "^4.17.17",
+    "@types/express-graphql": "^0.9.0",
+    "@types/jest": "^29.5.3",
+    "@types/node": "^20.4.8",
+    "@typescript-eslint/eslint-plugin": "^5.52.0",
+    "eslint": "^8.0.1",
+    "eslint-config-standard-with-typescript": "^37.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
+    "eslint-plugin-promise": "^6.0.0",
+    "jest": "^29.6.2",
+    "nodemon": "^3.0.1",
+    "sequelize": "^6.32.1",
+    "ts-jest": "^29.1.1",
+    "typescript": "*"
+  }
+}
