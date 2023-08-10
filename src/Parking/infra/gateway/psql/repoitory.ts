@@ -1,5 +1,5 @@
 import { Parking } from '../../../../infraestructure/db'
-import { type userType, type ParkingLotRepository, type parkingLot, ParkingType } from '../../../domain'
+import { type userType, type ParkingLotRepository, type parkingLot, ParkingType, type listOptions } from '../../../domain'
 
 const save = async (parking: parkingLot): Promise<parkingLot> => {
   try {
@@ -11,8 +11,26 @@ const save = async (parking: parkingLot): Promise<parkingLot> => {
   }
 }
 
-const list = async (): Promise<parkingLot[]> => {
-  return []
+const list = async (options: listOptions): Promise<parkingLot[]> => {
+  try {
+    const parkingList = await Parking.findAll({
+      offset: options.skip,
+      limit: options.limit,
+      order: [[options.orderField, options.orderDirection]]
+    })
+
+    const parkingLotTypes: parkingLot[] = parkingList.map((parking: any) => ({
+      id: parking.id,
+      name: parking.name,
+      contact: parking.contact,
+      spots: parking.spots,
+      parkingType: parking.parkingType
+    }))
+
+    return parkingLotTypes
+  } catch (err: any) {
+    throw Error(err)
+  }
 }
 
 const edit = async (_parkingId: string, _usertype: userType): Promise<parkingLot> => {

@@ -1,5 +1,5 @@
 import { logger } from '../../shared/logger'
-import { ParkingLot, type parkingLot, type ParkingLotRepository, type parkingType } from '../domain'
+import { type listOptions, type listResult, ParkingLot, type parkingLot, type ParkingLotRepository, type parkingType } from '../domain'
 
 interface parkingLotMutation {
   name: string
@@ -26,8 +26,26 @@ export function ParkingLotActions (parkingRepository: ParkingLotRepository): any
     }
   }
 
-  const list = () => {
-    logger.info('Listing parking lots')
+  const list = async (options: listOptions): Promise<listResult> => {
+    try {
+      const pagination: listOptions = {
+        skip: (options.skip - 1) * options.limit,
+        limit: options.limit,
+        orderField: options.orderField,
+        orderDirection: options.orderDirection
+      }
+
+      const parkingList = await parkingRepository.list(pagination)
+
+      logger.info('Listing parking lots')
+      return {
+        count: parkingList.length,
+        parking: parkingList
+      }
+    } catch (err: any) {
+      logger.error(err.message)
+      return await Promise.reject(err.message)
+    }
   }
 
   const edit = () => {
