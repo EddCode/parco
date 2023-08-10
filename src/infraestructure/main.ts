@@ -26,4 +26,4 @@ const start = async (): Promise<void> => {
   })
 }
 
-export { start }
+export { start, app }

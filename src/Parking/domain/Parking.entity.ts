@@ -1,6 +1,6 @@
 import { type ParkingType, validateParkingSpots, validateParkingType } from './ParkingType'
 
-interface parkingLot {
+export interface parkingLot {
   id: string
   name: string
   spots: number

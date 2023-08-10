@@ -8,7 +8,7 @@ enum parkingType {
   COURTESY = 'courtesy'
 }
 
-export const Parkin = sequelize.define('Parking', {
+export const Parking = sequelize.define('Parking', {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,

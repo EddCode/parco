@@ -7,7 +7,7 @@ export enum ParkingType {
   COURTESY = 'courtesy'
 }
 
-type parkingType = ParkingType.COURTESY | ParkingType.PRIVATE | ParkingType.PUBLIC
+export type parkingType = ParkingType.COURTESY | ParkingType.PRIVATE | ParkingType.PUBLIC
 
 export function validateParkingSpots (spots: number): void {
   if (spots < MIN_SPOTS) throw new Error('Parking lot is to small')

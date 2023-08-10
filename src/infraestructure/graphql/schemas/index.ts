@@ -1,12 +1,16 @@
 import { buildSchema } from 'graphql'
 
-import { parkingLot, parkingLotQuery, parkingResolver } from '../../../Parking/infra/gateway/graphql'
+import { parkingLotResponseDto, parkingLotQuery, parkingResolver, parkingLotMutation } from '../../../Parking/infra/gateway/graphql'
 
 export const Schema = buildSchema(`
-   ${parkingLot}
+   ${parkingLotResponseDto}
 
    type Query {
       ${parkingLotQuery}
+   }
+
+   type Mutation {
+    ${parkingLotMutation}
    }
 `)
 
