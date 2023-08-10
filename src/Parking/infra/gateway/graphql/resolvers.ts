@@ -2,7 +2,7 @@ import { validateParkingDTO, validateParkingListDto } from '../ requestDTO'
 import { ParkingLotActions } from '../../../application'
 import { PsqlRepository } from '../psql/repoitory'
 
-const { save, list } = ParkingLotActions(PsqlRepository)
+const { save, list, edit } = ParkingLotActions(PsqlRepository)
 
 export const parkingResolver = {
   createParking: async (input: any) => {
@@ -39,6 +39,17 @@ export const parkingResolver = {
       }
     } catch (err) {
       throw new Error('Error retrieving parking lots')
+    }
+  },
+  editParking: async (input: any) => {
+    try {
+      const parking = await edit(input.id, input.contact, input.spots)
+
+      return {
+        ...parking
+      }
+    } catch (err: any) {
+      throw new Error(err.message)
     }
   }
 }

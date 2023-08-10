@@ -1,6 +1,4 @@
 import { type parkingLot } from './Parking.entity'
-import { type userType } from './UserType'
-
 export interface listOptions {
   skip: number
   limit: number
@@ -16,5 +14,5 @@ export interface listResult {
 export interface ParkingLotRepository {
   save: (data: parkingLot) => Promise<parkingLot>
   list: (options: listOptions) => Promise<parkingLot[]>
-  update: (parkingId: string, usertype: userType) => Promise<parkingLot>
+  update: (parkingId: string, contact?: string, spots?: number) => Promise<parkingLot>
 }

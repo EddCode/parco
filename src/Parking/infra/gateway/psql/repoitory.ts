@@ -1,5 +1,5 @@
 import { Parking } from '../../../../infraestructure/db'
-import { type userType, type ParkingLotRepository, type parkingLot, ParkingType, type listOptions } from '../../../domain'
+import { type ParkingLotRepository, type parkingLot, type listOptions } from '../../../domain'
 
 const save = async (parking: parkingLot): Promise<parkingLot> => {
   try {
@@ -33,15 +33,30 @@ const list = async (options: listOptions): Promise<parkingLot[]> => {
   }
 }
 
-const edit = async (_parkingId: string, _usertype: userType): Promise<parkingLot> => {
-  const response: parkingLot = {
-    id: '1',
-    name: 'Estacionamento 1',
-    contact: '55 11 99999-9999',
-    spots: 50,
-    parkingType: ParkingType.PRIVATE
+const edit = async (parkingId: string, contact?: string, spots?: number): Promise<parkingLot> => {
+  try {
+    const parking = await Parking.findByPk(parkingId) as any
+    if (parking == null) {
+      throw Error('Parking not found')
+    }
+
+    parking.contact = (contact !== '') ? contact : parking.contact
+    parking.spots = (!Number.isNaN(spots)) ? spots : parking.spots
+
+    await parking.save()
+
+    const parkingUpdated: parkingLot = {
+      id: parking.id,
+      name: parking.name,
+      contact: parking.contact,
+      spots: parking.spots,
+      parkingType: parking.parkingType
+    }
+
+    return parkingUpdated
+  } catch (err: any) {
+    throw Error(err.message)
   }
-  return response
 }
 
 export const PsqlRepository: ParkingLotRepository = {

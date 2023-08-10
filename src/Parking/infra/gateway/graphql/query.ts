@@ -24,3 +24,5 @@ createParking(name: String, spots: Int, contact: String, parkingType: String): P
 `
 
 export const parkinglist = 'getParkingLots(skip: Int, limit: Int, orderField: String, orderDirection: String): ParkingLotList'
+
+export const editParking = 'editParking(id: String, contact: String!, spots: Int!): ParkingLot'

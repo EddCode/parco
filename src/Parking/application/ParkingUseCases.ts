@@ -48,8 +48,16 @@ export function ParkingLotActions (parkingRepository: ParkingLotRepository): any
     }
   }
 
-  const edit = () => {
-    logger.info('Editing parking lots')
+  const edit = async (parkingId: string, contact?: string, sports?: number): Promise<parkingLot> => {
+    try {
+      const parking = await parkingRepository.update(parkingId, contact, sports)
+      logger.info('Editing parking lots')
+      console.log(parking)
+      return parking
+    } catch (err: any) {
+      logger.error(err.message)
+      return await Promise.reject(err.message)
+    }
   }
 
   return {
