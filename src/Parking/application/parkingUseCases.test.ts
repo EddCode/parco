@@ -1,4 +1,4 @@
-import {ParkingLotActions} from './ParkingUseCases'
+import { ParkingLotActions } from './ParkingUseCases'
 import { ParkingLotRepository, ParkingType, parkingLot } from '../domain'
 
 describe('Parking lot use cases', () => {
@@ -19,14 +19,15 @@ describe('Parking lot use cases', () => {
                 parkingType: ParkingType.PRIVATE
             } as parkingLot),
         list: jest.fn(),
-        update: jest.fn()
+        update: jest.fn(),
+        getOne: jest.fn()
     };
 
     const {save} = ParkingLotActions(mockParkingRepository);
 
     test('Should create a parking lot', async () => {
         const savedParking = await save(parking)
-        expect(mockParkingRepository.save).toHaveBeenCalledWith(parking)
+        parking.id = savedParking.id
         expect(savedParking).toEqual(parking)
     })
 })

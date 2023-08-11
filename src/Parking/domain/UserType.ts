@@ -1,7 +1,7 @@
 export enum userEnumType {
   CORPORATE = 'corporate',
   PROVIDER = 'provider',
-  VISITOR = 'vistor'
+  VISITOR = 'visitor'
 }
 
 export type userType = userEnumType.CORPORATE | userEnumType.PROVIDER | userEnumType.VISITOR

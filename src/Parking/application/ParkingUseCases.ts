@@ -1,5 +1,16 @@
 import { logger } from '../../shared/logger'
-import { type listOptions, type listResult, ParkingLot, type parkingLot, type ParkingLotRepository, type parkingType } from '../domain'
+import { uuidv4 } from '../../shared/uuid'
+import {
+  type listOptions,
+  type listResult,
+  type parkingLot,
+  type ParkingLotRepository,
+  type parkingType,
+  createParkingEntryValidator,
+  ParkingLot,
+  type ParkingEntryResult,
+  type userEnumType
+} from '../domain'
 
 interface parkingLotMutation {
   name: string
@@ -8,21 +19,32 @@ interface parkingLotMutation {
   spots: number
 }
 
-export function ParkingLotActions (parkingRepository: ParkingLotRepository): any {
-  const save = async (data: parkingLotMutation): Promise<parkingLot | undefined> => {
+interface ParkingLotActionsReturnType {
+  save: (data: parkingLotMutation) => Promise<parkingLot>
+  list: (options: listOptions) => Promise<listResult>
+  edit: (parkingId: string, contact?: string, sports?: number) => Promise<parkingLot>
+  checking: (parkingId: string, userType: userEnumType) => Promise<ParkingEntryResult>
+}
+
+export function ParkingLotActions (parkingRepository: ParkingLotRepository): ParkingLotActionsReturnType {
+  const save = async (data: parkingLotMutation): Promise<parkingLot> => {
     try {
       const parkinglot: parkingLot = {
-        id: '8a6e0804-2bd0-4672-b79d-d97027f9071b',
+        id: uuidv4(),
         name: data.name,
         contact: data.contact,
         spots: data.spots,
         parkingType: data.parkingType
       }
       const parking = ParkingLot(parkinglot)
-      const ab = await parkingRepository.save(parking)
-      return ab
+      const saved = await parkingRepository.save(parking)
+      return saved
     } catch (err: any) {
-      await Promise.reject(err)
+      return await Promise.reject({
+        success: false,
+        errorCode: 'PARING_SAVE_ERR',
+        message: err.message
+      })
     }
   }
 
@@ -44,7 +66,11 @@ export function ParkingLotActions (parkingRepository: ParkingLotRepository): any
       }
     } catch (err: any) {
       logger.error(err.message)
-      return await Promise.reject(err.message)
+      return await Promise.reject({
+        success: false,
+        errorCode: 'PARING_LIST_ERR',
+        message: err.message
+      })
     }
   }
 
@@ -52,17 +78,54 @@ export function ParkingLotActions (parkingRepository: ParkingLotRepository): any
     try {
       const parking = await parkingRepository.update(parkingId, contact, sports)
       logger.info('Editing parking lots')
-      console.log(parking)
+
       return parking
     } catch (err: any) {
       logger.error(err.message)
-      return await Promise.reject(err.message)
+
+      return await Promise.reject({
+        success: false,
+        errorCode: 'PARING_U',
+        message: err.message
+      })
+    }
+  }
+
+  const checking = async (parkingId: string, userType: userEnumType): Promise<ParkingEntryResult> => {
+    try {
+      const parking = await parkingRepository.getOne(parkingId) as parkingLot | undefined
+      if (parking == null) {
+        return await Promise.reject({
+          success: false,
+          errorCode: 'PARKING_NOT_FOUND',
+          message: 'Parking lot not found'
+        })
+      }
+
+      const status = createParkingEntryValidator(userType, parking.parkingType).validate()
+
+      if (!status.success) {
+        return {
+          success: false,
+          errorCode: status.errorCode,
+          message: status.message
+        }
+      }
+
+      return status
+    } catch (err: any) {
+      return await Promise.reject({
+        success: false,
+        errorCode: 'PARKING_UNEXPECTED_ERR',
+        message: err.message
+      })
     }
   }
 
   return {
     save,
     list,
-    edit
+    edit,
+    checking
   }
 }

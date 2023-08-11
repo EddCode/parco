@@ -64,4 +64,10 @@ describe('Parking integration tests', () => {
             }).expect(200)
         expect(response.body).toHaveProperty('errors')
     })
+
+    test('Should get parking lots', async () => {
+        
+    })
+    test('Should edit parking lot', async () => {})
+    test('Should checkin', async () => {})
   })

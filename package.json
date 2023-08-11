@@ -7,7 +7,7 @@
   "scripts": {
     "lint": "eslint . --ext .ts",
     "test": "jest --coverage",
-    "dev": "nodemon --inspect=0.0.0.0:9229"
+    "dev": "nodemon --inspect"
   },
   "dependencies": {
     "@types/joi": "^17.2.3",

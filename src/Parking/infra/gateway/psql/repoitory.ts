@@ -5,6 +5,7 @@ const save = async (parking: parkingLot): Promise<parkingLot> => {
   try {
     const parkingModel = Parking.build(parking as any)
     await parkingModel.save()
+    console.log(parking, 'After saved')
     return parking
   } catch (err: any) {
     throw Error(err)
@@ -30,6 +31,27 @@ const list = async (options: listOptions): Promise<parkingLot[]> => {
     return parkingLotTypes
   } catch (err: any) {
     throw Error(err)
+  }
+}
+
+const getOne = async (parkingId: string): Promise<parkingLot> => {
+  try {
+    const parking = await Parking.findByPk(parkingId) as any
+    if (parking == null) {
+      throw Error('Parking not found')
+    }
+
+    const parkingLotType: parkingLot = {
+      id: parking.id,
+      name: parking.name,
+      contact: parking.contact,
+      spots: parking.spots,
+      parkingType: parking.parkingType
+    }
+
+    return parkingLotType
+  } catch (err: any) {
+    throw Error(err.message)
   }
 }
 
@@ -62,5 +84,6 @@ const edit = async (parkingId: string, contact?: string, spots?: number): Promis
 export const PsqlRepository: ParkingLotRepository = {
   list,
   update: edit,
-  save
+  save,
+  getOne
 }

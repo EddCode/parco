@@ -16,6 +16,7 @@
     },
     "rules": {
         "no-console": "error",
+        "prefer-promise-reject-errors": "off",
         "import/no-default-export": "error",
         "import/order": [
             "error",
