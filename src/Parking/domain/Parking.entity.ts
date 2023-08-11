@@ -44,6 +44,7 @@ export const createParkingEntryValidator = (userType: userEnumType, parkingType:
 
   const validateCourtesy = (): ParkingEntryResult => {
     if (userType === userEnumType.VISITOR) {
+      console.log('validateCourtesy', validateWeekend())
       return validateWeekend() ? { success: true } : weekendError()
     }
     return accessDeniedError()

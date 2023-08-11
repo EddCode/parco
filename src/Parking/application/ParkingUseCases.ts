@@ -94,6 +94,7 @@ export function ParkingLotActions (parkingRepository: ParkingLotRepository): Par
   const checking = async (parkingId: string, userType: userEnumType): Promise<ParkingEntryResult> => {
     try {
       const parking = await parkingRepository.getOne(parkingId) as parkingLot | undefined
+
       if (parking == null) {
         return await Promise.reject({
           success: false,
